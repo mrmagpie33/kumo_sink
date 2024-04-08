@@ -1,0 +1,57 @@
+local kumo = require 'kumo'
+-- This config acts as a sink that will discard all received mail
+
+kumo.on('init', function()
+  -- Listen on port 25
+  kumo.start_esmtp_listener {
+    listen = '0:25',
+    -- allow all clients to send mail
+    relay_hosts = { '0.0.0.0/0', '172.31.0.0/16' },
+  }
+
+  -- Define the default "data" spool location.
+  -- This is unused by this config, but we are required to
+  -- define a default spool location.
+  kumo.define_spool {
+    name = 'data',
+    path = '/tmp/kumo-sink/data',
+  }
+
+  -- Define the default "meta" spool location.
+  -- This is unused by this config, but we are required to
+  -- define a default spool location.
+  kumo.define_spool {
+    name = 'meta',
+    path = '/tmp/kumo-sink/meta',
+  }
+end)
+
+kumo.on('smtp_server_message_received', function(msg)
+  -- Accept and discard all messages
+  msg:set_meta('queue', 'null')
+end)
+
+kumo.configure_local_logs {
+  log_dir = '/var/log/kumomta',
+
+  -- We recommend setting this when you're getting started;
+  -- this option is discussed in more detail below
+  max_segment_duration = '1 seconds',
+}
+
+
+  -- Configure HTTP Listeners for injection and management APIs.
+  -- See https://docs.kumomta.com/userguide/configuration/httplisteners/
+  kumo.start_http_listener {
+    listen = '0.0.0.0:8000',
+    -- allowed to access any http endpoint without additional auth
+    trusted_hosts = { '127.0.0.1', '::1' },
+  }
+  kumo.start_http_listener {
+    use_tls = true,
+    listen = '0.0.0.0:8001',
+    -- allowed to access any http endpoint without additional auth
+    trusted_hosts = { '127.0.0.1', '::1' },
+  }
+
+

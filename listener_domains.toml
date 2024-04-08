@@ -1,0 +1,12 @@
+# Listener Domains onfiguration
+# Set here how domains should behave
+
+['*']
+  log_arf = true
+  log_oob = true
+  relay_to = false
+
+## Following should be a list of approved users by sending domain
+['send.example.com']
+  relay_from = ['0/0']
+

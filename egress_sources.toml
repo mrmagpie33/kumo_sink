@@ -1,0 +1,15 @@
+# Egress Sources and Pools
+# TOML version:
+
+# Pool Definitions
+[pool.'default']
+[pool.'default'.'test']
+
+# Egress IP Definitions
+
+[source.'test']
+
+
+
+
+

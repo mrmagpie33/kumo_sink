@@ -1,0 +1,6 @@
+domain,code,context
+"yahoo.com",451,"No route to host"
+"earthlink.net",550,"550 5.5.1 Recipient rejected"
+"earthlink.net",550,"550 5.7.1 Recipient address rejected"
+
+
